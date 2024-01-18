@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Material</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #141414;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #141414;
+            padding: 10px;
+            text-align: left;
+        }
+        label {
+            font-size: 50px;
+            margin-left: 20px;
+            margin-top: 20px;
+            color: darkorchid;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .heading {
+            font-size: 70px;
+            color: white;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .file-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 100px;
+            padding: 100px;
+        }
+        .file-card {
+            background-color: darkorchid;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .file-name {
+            font-size: 30px;
+            color: white;
+            margin-top: 10px;
+        }
+        @media only screen and (max-width: 1100px) {
+            .file-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 100px;
+                padding: 100px;
+            }
+            .file-card {
+                background-color: darkorchid;
+                padding: 15px;
+                border-radius: 10px;
+                text-align: center;
+            }
+            .file-name {
+                font-size: 30px;
+                color: white;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <label id="usernameLabel"></label>
+    </header>
+    <main>
+        <div class="heading">Study Material</div>
+        <div class="file-container" id="fileContainer"></div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var username = response.username;
+                    document.getElementById('usernameLabel').textContent = username;
+
+                    var files = response.files;
+                    displayFiles(files);
+                }
+            };
+            xhr.open('GET', '/list_files?dir=Books', true);
+            xhr.send();
+        });
+        function displayFiles(files) {
+            var container = document.getElementById('fileContainer');
+            container.innerHTML = ''; // Clear previous content
+
+            files.forEach(function (file) {
+                var card = document.createElement('div');
+                card.className = 'file-card';
+                var downloadLink = document.createElement('a');
+                downloadLink.href = '/download/' + encodeURIComponent(file);
+                downloadLink.style.cursor = 'pointer';
+                var fileName = document.createElement('div');
+                fileName.className = 'file-name';
+                fileName.textContent = file;
+                downloadLink.appendChild(fileName);
+                downloadLink.appendChild(document.createElement('br')); 
+                card.appendChild(downloadLink);
+                container.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>

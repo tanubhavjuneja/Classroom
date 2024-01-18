@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML IDE</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #141414;
+            color: #FFFFFF;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: row;
+            background-color: #1C1C1C;
+            padding: 10px;
+            justify-content: flex-start;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        button {
+            width: 100px;
+            height: 40px;
+            background-color: darkorchid;
+            color: #FFFFFF;
+            margin-right: 5px;
+            border: none;
+            border-radius: 10px;
+            margin-left: 1%;
+            margin-right: 1%;
+        }
+        .editor-container {
+            display: flex;
+            position: relative;
+        }
+        .line-numbers {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            width: 40px;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #202020;
+            border-right: 1px solid #333;
+            border-bottom-left-radius: 10px;
+            overflow: hidden;
+            height: calc(100% - 40px);
+            overflow-y: hidden;
+            pointer-events: none;
+        }
+        .line-number {
+            color: white;
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+        @media only screen and (max-width: 1100px) {
+            .line-numbers {
+                display: none;
+            }
+        }
+        textarea {
+            resize: none;
+            flex-grow: 1;
+            height: calc(100vh - 90px);
+            margin: 10px;
+            padding-top: 1%;
+            padding-left: 3%;
+            padding-bottom: 1%;
+            box-sizing: border-box;
+            background-color: #202020;
+            color: #FFFFFF;
+            border: none;
+            outline: none;
+            border-radius: 10px;
+            overflow: auto;
+            font-size: 20px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: darkorchid #333333;
+        }
+        textarea::-webkit-scrollbar {
+            width: 12px;
+        }
+        textarea::-webkit-scrollbar-track {
+            background: #333333;
+        }
+        textarea::-webkit-scrollbar-thumb {
+            background-color: darkorchid;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button onclick="switchLanguage('html')">HTML</button>
+        <button onclick="switchLanguage('css')">CSS</button>
+        <button onclick="switchLanguage('js')">JS</button>
+        <button onclick="renderCode()">Render</button>
+    </div>
+    <div class="editor-container">
+        <div class="line-numbers">
+        </div>
+        <textarea id="code" placeholder=""></textarea>
+    </div>
+    <script>
+        var currentLanguage = 'html';
+        var textarea = document.getElementById('code');
+        var lineNumbersContainer = document.querySelector('.line-numbers');
+        textarea.addEventListener('input', updateLineNumbers);
+        textarea.addEventListener('scroll', function () {
+            lineNumbersContainer.scrollTop = this.scrollTop;
+        });
+        function updateLineNumbers() {
+            var lines = textarea.value.split('\n');
+            var lineNumbersHTML = '';
+            var totalLines = Math.max(lines.length, 100);
+            for (var i = 1; i <= totalLines; i++) {
+                lineNumbersHTML += '<div class="line-number">' + i + '</div>';
+            }
+            lineNumbersContainer.innerHTML = lineNumbersHTML;
+        }
+        updateLineNumbers();
+        function switchLanguage(language) {
+            saveToFile(currentLanguage);
+            currentLanguage = language;
+            loadFromFile(currentLanguage);
+            setPlaceholder();
+        }
+        function setPlaceholder() {
+            var placeholderText = 'Enter ' + currentLanguage.toUpperCase() + ' code...';
+            document.getElementById('code').placeholder = placeholderText;
+        }
+        setPlaceholder();
+        function saveToFile(language) {
+            var code = document.getElementById('code').value;
+            if (code.trim() !== '') {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        document.getElementById('code').value = '';
+                    }
+                };
+                xhr.open('POST', '/save', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send('language=' + language + '&code=' + encodeURIComponent(code));
+            }
+        }
+        function loadFromFile(language) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById('code').value = xhr.responseText;
+                }
+            };
+            xhr.open('GET', '/load?language=' + language, true);
+            xhr.send();
+        }
+        function renderCode() {
+            saveToFile(currentLanguage);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var newTab = window.open();
+                    newTab.document.open();
+                    newTab.document.write(xhr.responseText);
+                    newTab.document.close();
+                }
+            };
+            xhr.open('GET', '/render', true);
+            xhr.send();
+        }
+        document.getElementById('code').addEventListener('input', function () {
+            var code = this.value.trim();
+            if (code === '') {
+                setPlaceholder();
+            } else {
+                this.placeholder = '';
+            }
+        });
+    </script>
+</body>
+</html>

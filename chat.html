@@ -1,0 +1,178 @@
+.<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Basic Chat App</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #2f2f2f;
+            font-family: Arial, sans-serif;
+        }
+        #chatFrame {
+    height: calc(100% - 142px); 
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: darkorchid #333333;
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #333333; 
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: darkorchid; 
+        border-radius: 10px;
+    }
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #2f2f2f;
+}
+        #usernameInput {
+            margin-top: -18px;
+            width: 100%;
+            padding: 15px;
+            font-size: 25px;
+            border: none;
+            background-color: darkorchid;
+            color: white; 
+            box-sizing: border-box;
+        }
+        .messageContainer {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .messageBubble {
+            background-color: darkorchid; 
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            clear: both;
+            color: white; 
+        }
+        .messageText {
+            margin-right: 20px;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="usernameInput" placeholder="Enter your username...">
+    <div id="chatFrame"></div>
+    <div style="position: fixed; bottom: 0; width: 99%; background-color: #2f2f2f; padding: 10px; display: flex; align-items: center;">
+        <input type="text" id="messageInput" placeholder="Type your message..." style="flex: 1; padding: 10px; background-color: #2f2f2f; color: darkorchid; border: 2px solid darkorchid; border-radius: 20px;">
+        <button onclick="sendMessage()" style="background-color: darkorchid;color: white; margin-left: 10px; margin-right:10px;border-radius: 20px; border: none; font-size: 20px; cursor: pointer; width: auto; padding: 10px 20px; outline: none;">
+            Send
+        </button>             
+    </div>
+    <script>
+        function getUsernameFromServer() {
+            fetch('/get_username')
+            .then(response => response.json())
+            .then(data => {
+                const username = data.username;
+                if (username) {
+                    document.getElementById('usernameInput').value = username;
+                } else {
+                    const storedUsername = localStorage.getItem('username');
+                    if (storedUsername) {
+                        document.getElementById('usernameInput').value = storedUsername;
+                    } else {
+                        const newUsername = prompt('Please enter your username:');
+                        document.getElementById('usernameInput').value = newUsername;
+                        localStorage.setItem('username', newUsername);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+        getUsernameFromServer();
+        let userScrolledManually = false; 
+function scrollToBottom() {
+    const chatFrame = document.getElementById('chatFrame');
+    chatFrame.scrollTop = chatFrame.scrollHeight;
+}
+const chatFrame = document.getElementById('chatFrame');
+chatFrame.addEventListener('scroll', function() {
+    userScrolledManually = chatFrame.scrollTop + chatFrame.clientHeight < chatFrame.scrollHeight;
+});
+function fetchMessagesFromServer() {
+    fetch('/chat/receive')
+    .then(response => response.json())
+    .then(data => {
+        const chatFrame = document.getElementById('chatFrame');
+        const wasAtBottom = chatFrame.scrollTop + chatFrame.clientHeight >= chatFrame.scrollHeight - 20;
+        chatFrame.innerHTML = '';
+        data.messages.forEach(message => {
+            appendMessageToChatFrame(message.trim());
+        });
+        if (wasAtBottom || !userScrolledManually) {
+            scrollToBottom();
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching messages:', error);
+    });
+}
+function appendMessageToChatFrame(message) {
+    const chatFrame = document.getElementById('chatFrame');
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'messageContainer';
+    const messageBubble = document.createElement('div');
+    messageBubble.className = 'messageBubble';
+    const match = message.match(/^\d+\.\d+\.\d+\.\d+ \(([^)]+)\): (.+)$/);
+    if (match && match.length === 3) {
+        const username = match[1];
+        const content = match[2];
+        messageBubble.innerText = `${username}: ${content}`;
+    } else {
+        messageBubble.innerText = message;
+    }
+    messageContainer.appendChild(messageBubble);
+    chatFrame.appendChild(messageContainer);
+}
+fetchMessagesFromServer();
+function startMessageFetchingScheduler() {
+    setInterval(() => {
+        fetchMessagesFromServer();
+    }, 1000); 
+}
+function sendMessage() {
+    const message = document.getElementById('messageInput').value;
+    const username = document.getElementById('usernameInput').value;
+    fetch('/chat/send', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `message=${encodeURIComponent(message)}&username=${encodeURIComponent(username)}`
+    })
+    .then(() => {
+        fetchMessagesFromServer();
+        document.getElementById('messageInput').value = '';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+document.getElementById('messageInput').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage(); 
+    }
+});
+fetchMessagesFromServer();
+startMessageFetchingScheduler();
+    </script>
+</body>
+</html> 
