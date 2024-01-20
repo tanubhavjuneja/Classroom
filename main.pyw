@@ -62,7 +62,6 @@ def ide():
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simple Calculator</title>
-  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="calculator">
@@ -86,7 +85,6 @@ def ide():
       <button onclick="appendOperator('/')">/</button>
     </div>
   </div>
-  <script src="script.js"></script>
 </body>
 </html>
     ''',
@@ -96,17 +94,17 @@ def ide():
   align-items: center;
   height: 100vh;
   margin: 0;
-  background-color: #f4f4f4;
+  background-color: #2f2f2f;
 }
 .calculator {
   width: 300px;
   text-align: center;
-  background-color: #fff;
+  background-color: #333333;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 #display {
-  width: 100%;
+  width: 90%;
   margin-bottom: 10px;
   padding: 10px;
   font-size: 18px;
@@ -122,7 +120,7 @@ button {
   padding: 15px;
   font-size: 16px;
   cursor: pointer;
-  background-color: #3498db;
+  background-color: darkorchid;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -402,7 +400,7 @@ def get_file_list(directory):
         print(f"Error listing files in {directory}: {e}")
         return []
 def start_server():
-    run(app, host='0.0.0.0', port=443, debug=True)
+    run(app, host='0.0.0.0', port=80, debug=True)
 if __name__ == '__main__':
     if not os.path.exists('chat_history.txt'):
         with open('chat_history.txt', 'w') as file:
