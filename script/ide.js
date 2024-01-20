@@ -1,6 +1,45 @@
 var currentLanguage = 'html';
 var textarea = document.getElementById('code');
 var lineNumbersContainer = document.querySelector('.line-numbers');
+let counter = 0;
+let counterHistory = [0];
+let historyIndex = 0;
+const counterBtn = document.getElementById('counterBtn');
+const counterValue = document.getElementById('counterValue');
+counterBtn.addEventListener('click', () => {
+    counter++;
+    counterValue.textContent = `Counter: ${counter}`;
+    addToHistory(counter);
+});
+document.addEventListener('keydown', (event) => {
+    if (event.ctrlKey && event.key === 'z') {
+        undo();
+    } else if (event.ctrlKey && event.key === 'y') {
+        redo();
+    }
+});
+function addToHistory(value) {
+    counterHistory.splice(historyIndex + 1);
+    counterHistory.push(value);
+    historyIndex = counterHistory.length - 1;
+}
+function undo() {
+    if (historyIndex > 0) {
+        historyIndex--;
+        counter = counterHistory[historyIndex];
+        updateCounter();
+    }
+}
+function redo() {
+    if (historyIndex < counterHistory.length - 1) {
+        historyIndex++;
+        counter = counterHistory[historyIndex];
+        updateCounter();
+    }
+}
+function updateCounter() {
+    counterValue.textContent = `Counter: ${counter}`;
+}
 textarea.addEventListener('input', updateLineNumbers);
 textarea.addEventListener('scroll', function () {
     lineNumbersContainer.scrollTop = this.scrollTop;
