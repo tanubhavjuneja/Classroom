@@ -1,0 +1,72 @@
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #141414;
+    color: #FFFFFF;
+    font-family: Arial, sans-serif;
+}
+header {
+    background-color: #141414;
+    padding: 10px;
+    text-align: left;
+}
+label {
+    font-size: 50px;
+    margin-left: 20px;
+    margin-top: 20px;
+    color: darkorchid;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.heading {
+    font-size: 70px;
+    color: white;
+    margin-top: 20px;
+    text-align: center;
+}
+.file-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 100px;
+    padding: 100px;
+}
+.file-card {
+    background-color: darkorchid;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+.file-name {
+    font-size: 30px;
+    color: white;
+    margin-top: 10px;
+}
+@media only screen and (max-width: 1100px) {
+    .file-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 100px;
+        padding: 100px;
+    }
+    .file-card {
+        background-color: darkorchid;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .file-name {
+        font-size: 30px;
+        color: white;
+        margin-top: 10px;
+    }
+}

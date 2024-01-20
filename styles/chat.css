@@ -1,0 +1,58 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: #2f2f2f;
+    font-family: Arial, sans-serif;
+}
+#chatFrame {
+height: calc(100% - 142px); 
+overflow-y: scroll;
+scrollbar-width: thin;
+scrollbar-color: darkorchid #333333;
+&::-webkit-scrollbar {
+width: 12px;
+}
+&::-webkit-scrollbar-track {
+background: #333333; 
+}
+&::-webkit-scrollbar-thumb {
+background-color: darkorchid; 
+border-radius: 10px;
+}
+padding: 10px;
+display: flex;
+flex-direction: column;
+gap: 10px;
+background-color: #2f2f2f;
+}
+#usernameInput {
+    margin-top: -18px;
+    width: 100%;
+    padding: 15px;
+    font-size: 25px;
+    border: none;
+    background-color: darkorchid;
+    color: white; 
+    box-sizing: border-box;
+}
+.messageContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+.messageBubble {
+    background-color: darkorchid; 
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin: 5px;
+    clear: both;
+    color: white; 
+}
+.messageText {
+    margin-right: 20px;
+    word-wrap: break-word;
+}
