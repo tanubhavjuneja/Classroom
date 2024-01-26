@@ -72,22 +72,25 @@ fetchMessagesFromServer();
 }, 1000); 
 }
 function sendMessage() {
-const message = document.getElementById('messageInput').value;
-const username = document.getElementById('usernameInput').value;
-fetch('/chat/send', {
-method: 'POST',
-headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-},
-body: `message=${encodeURIComponent(message)}&username=${encodeURIComponent(username)}`
-})
-.then(() => {
-fetchMessagesFromServer();
-document.getElementById('messageInput').value = '';
-})
-.catch(error => {
-console.error('Error:', error);
-});
+    const messageInput = document.getElementById('messageInput');
+    const message = messageInput.value.trim(); 
+    const username = document.getElementById('usernameInput').value;
+    if (message !== '') {
+        fetch('/chat/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `message=${encodeURIComponent(message)}&username=${encodeURIComponent(username)}`
+        })
+        .then(() => {
+            fetchMessagesFromServer();
+            messageInput.value = '';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
 }
 document.getElementById('messageInput').addEventListener('keydown', function(event) {
 if (event.key === 'Enter') {

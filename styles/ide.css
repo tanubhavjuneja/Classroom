@@ -29,45 +29,20 @@ button {
     display: flex;
     position: relative;
 }
-.line-numbers {
-    position: absolute;
-    top: 20px;
-    left: 10px;
-    width: 40px;
-    padding: 10px;
-    box-sizing: border-box;
-    background-color: #202020;
-    border-right: 1px solid #333;
-    border-bottom-left-radius: 10px;
-    overflow: hidden;
-    height: calc(100% - 40px);
-    overflow-y: hidden;
-    pointer-events: none;
-}
-.line-number {
-    color: white;
-    font-size: 1em;
-    margin-bottom: 5px;
-}
-@media only screen and (max-width: 1100px) {
-    .line-numbers {
-        display: none;
-    }
-}
 textarea {
     resize: none;
     flex-grow: 1;
-    height: calc(100vh - 90px);
-    margin: 10px;
+    height: calc(100vh - 110px);
+    margin: 1%;
     padding-top: 1%;
-    padding-left: 3%;
+    padding-left: 1%;
     padding-bottom: 1%;
     box-sizing: border-box;
     background-color: #202020;
     color: #FFFFFF;
     border: none;
     outline: none;
-    border-radius: 10px;
+    border-radius: 20px;
     overflow: auto;
     font-size: 20px;
     overflow-y: scroll;

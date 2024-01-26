@@ -1,11 +1,12 @@
 var currentLanguage = 'html';
 var textarea = document.getElementById('code');
-var lineNumbersContainer = document.querySelector('.line-numbers');
 let counter = 0;
 let counterHistory = [0];
 let historyIndex = 0;
 const counterBtn = document.getElementById('counterBtn');
 const counterValue = document.getElementById('counterValue');
+loadFromFile(currentLanguage);
+setPlaceholder();
 counterBtn.addEventListener('click', () => {
     counter++;
     counterValue.textContent = `Counter: ${counter}`;
@@ -40,20 +41,6 @@ function redo() {
 function updateCounter() {
     counterValue.textContent = `Counter: ${counter}`;
 }
-textarea.addEventListener('input', updateLineNumbers);
-textarea.addEventListener('scroll', function () {
-    lineNumbersContainer.scrollTop = this.scrollTop;
-});
-function updateLineNumbers() {
-    var lines = textarea.value.split('\n');
-    var lineNumbersHTML = '';
-    var totalLines = Math.max(lines.length, 100);
-    for (var i = 1; i <= totalLines; i++) {
-        lineNumbersHTML += '<div class="line-number">' + i + '</div>';
-    }
-    lineNumbersContainer.innerHTML = lineNumbersHTML;
-}
-updateLineNumbers();
 function switchLanguage(language) {
     saveToFile(currentLanguage);
     currentLanguage = language;
@@ -64,7 +51,6 @@ function setPlaceholder() {
     var placeholderText = 'Enter ' + currentLanguage.toUpperCase() + ' code...';
     document.getElementById('code').placeholder = placeholderText;
 }
-setPlaceholder();
 function saveToFile(language) {
     var code = document.getElementById('code').value;
     if (code.trim() !== '') {
@@ -102,6 +88,8 @@ function renderCode() {
     };
     xhr.open('GET', '/render', true);
     xhr.send();
+    loadFromFile(currentLanguage);
+    setPlaceholder();
 }
 document.getElementById('code').addEventListener('input', function () {
     var code = this.value.trim();
@@ -111,4 +99,3 @@ document.getElementById('code').addEventListener('input', function () {
         this.placeholder = '';
     }
 });
-loadFromFile(currentLanguage);
