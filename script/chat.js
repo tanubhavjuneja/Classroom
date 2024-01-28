@@ -31,23 +31,47 @@ chatFrame.addEventListener('scroll', function() {
 userScrolledManually = chatFrame.scrollTop + chatFrame.clientHeight < chatFrame.scrollHeight;
 });
 function fetchMessagesFromServer() {
-fetch('/chat/receive')
-.then(response => response.json())
-.then(data => {
-const chatFrame = document.getElementById('chatFrame');
-const wasAtBottom = chatFrame.scrollTop + chatFrame.clientHeight >= chatFrame.scrollHeight - 20;
-chatFrame.innerHTML = '';
-data.messages.forEach(message => {
-    appendMessageToChatFrame(message.trim());
-});
-if (wasAtBottom || !userScrolledManually) {
-    scrollToBottom();
+    fetch('/chat/receive')
+        .then(response => response.json())
+        .then(data => {
+            const chatFrame = document.getElementById('chatFrame');
+            const wasAtBottom = chatFrame.scrollTop + chatFrame.clientHeight >= chatFrame.scrollHeight - 20;
+            data.messages.forEach(message => {
+                appendMessageToChatFrame(message.trim());
+            });
+            if (wasAtBottom || !userScrolledManually) {
+                scrollToBottom();
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching messages:', error);
+        });
 }
-})
-.catch(error => {
-console.error('Error fetching messages:', error);
-});
+function loadChat() {
+    fetch('/chat/load_chat')
+        .then(response => response.json())
+        .then(data => {
+            const chatFrame = document.getElementById('chatFrame');
+            const wasAtBottom = chatFrame.scrollTop + chatFrame.clientHeight >= chatFrame.scrollHeight - 20;
+            chatFrame.innerHTML = '';
+            data.messages.forEach(message => {
+                appendMessageToChatFrame(message.trim());
+            });
+            if (wasAtBottom || !userScrolledManually) {
+                scrollToBottom();
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching messages:', error);
+        });
 }
+loadChat();
+function startMessageFetchingScheduler() {
+    setInterval(() => {
+    fetchMessagesFromServer();
+    }, 1000); 
+}
+startMessageFetchingScheduler();
 function appendMessageToChatFrame(message) {
 const chatFrame = document.getElementById('chatFrame');
 const messageContainer = document.createElement('div');
@@ -64,12 +88,6 @@ messageBubble.innerText = message;
 }
 messageContainer.appendChild(messageBubble);
 chatFrame.appendChild(messageContainer);
-}
-fetchMessagesFromServer();
-function startMessageFetchingScheduler() {
-setInterval(() => {
-fetchMessagesFromServer();
-}, 1000); 
 }
 function sendMessage() {
     const messageInput = document.getElementById('messageInput');
@@ -98,5 +116,3 @@ event.preventDefault();
 sendMessage(); 
 }
 });
-fetchMessagesFromServer();
-startMessageFetchingScheduler();

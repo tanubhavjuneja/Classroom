@@ -388,8 +388,23 @@ def send():
     return "Message received"
 @app.route('/chat/receive')
 def receive():
+    global messages,messageList
+    ip_address = request.environ.get('REMOTE_ADDR')
     with open('chat_history.txt', 'r') as file:
         messages = file.readlines()
+    messageIndex=messageDict[ip_address][1]
+    messageList=len(messages)
+    messageDict[ip_address][0]=messageIndex
+    messageDict[ip_address][1]=len(messages)
+    print(f"Read chat messages: {messages[messageIndex:messageList]}")
+    return {'messages': messages[messageIndex:messageList]}
+@app.route('/chat/load_chat')
+def load_chat():
+    global messages
+    ip_address = request.environ.get('REMOTE_ADDR')
+    with open('chat_history.txt', 'r') as file:
+        messages = file.readlines()
+    messageDict[ip_address]=[0,len(messages)]
     print(f"Read chat messages: {messages}")
     return {'messages': messages}
 def get_file_list(directory):
@@ -402,6 +417,7 @@ def get_file_list(directory):
 def start_server():
     run(app, host='0.0.0.0', port=80, debug=True)
 if __name__ == '__main__':
+    messageDict={'0.0.0.0':[0,0]}
     if not os.path.exists('chat_history.txt'):
         with open('chat_history.txt', 'w') as file:
             pass
