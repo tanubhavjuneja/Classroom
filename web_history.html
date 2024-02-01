@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Combined History</title>
+    <link rel="stylesheet" type="text/css" href="/styles/web_history.css">
+</head>
+<body>
+    <h1 style="font-size: 60px; color: white;">List of Webpages</h1>
+    <div class="upload-list">
+        <ul>
+            % for file in files:
+                <li style="margin-bottom: 15px; padding: 15px;">
+                    <span class="file-info">
+                        {{ file['name'] }}
+                    </span>
+                    <span>
+                        <a href="{{ file['download_path'] }}" class="download-button">Download</a>
+                    </span>
+                </li>
+            % end
+        </ul>
+    </div>
+</body>
+</html>

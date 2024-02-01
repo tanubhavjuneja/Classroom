@@ -51,7 +51,7 @@ main {
     color: white;
     margin-top: 10px;
 }
-@media only screen and (max-width: 1100px) {
+@media only screen and (max-width: 1300px) {
     .file-container {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));

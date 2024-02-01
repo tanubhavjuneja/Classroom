@@ -2,26 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>File History</title>
+    <title>Combined History</title>
+    <link rel="stylesheet" type="text/css" href="/styles/history.css">
 </head>
 <body>
-    <h1 style="font-size: 60px;color: white;" >List of Uploads</h1>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>History</title>
-    <link rel="stylesheet" type="text/css" href="styles/history.css">
-</head>
-<body>
+    <h1 style="font-size: 60px; color: white;">List of Uploads</h1>
     <div class="upload-list">
         <ul>
             % for file in files:
                 <li style="margin-bottom: 15px; padding: 15px;">
                     <a href="{{ file['path'] }}" target="_blank">
-                        <img src="{{ file['path'] }}" alt="Preview" class="image-preview">
+                        <img src="{{ file['path'] }}" alt="{{ file['name'] }}" class="image-preview">
                     </a>
                     <span class="file-info">
                         {{ file['name'] }}
