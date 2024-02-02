@@ -1,19 +1,20 @@
-.<html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Basic Chat App</title>
+    <title>Chat</title>
     <link rel="stylesheet" type="text/css" href="styles/chat.css">
 </head>
 <body>
-    <input type="text" id="usernameInput" placeholder="Enter your username...">
+    <div id="header">
+        <input type="text" id="usernameInput" placeholder="Enter your username...">
+    </div>
     <div id="chatFrame"></div>
-    <div style="position: fixed; bottom: 0; width: 99%; background-color: #2f2f2f; padding: 10px; display: flex; align-items: center;">
-        <input type="text" id="messageInput" placeholder="Type your message..." style="flex: 1; padding: 10px; background-color: #2f2f2f; color: darkorchid; border: 2px solid darkorchid; border-radius: 20px;">
-        <button onclick="sendMessage()" style="background-color: darkorchid;color: white; margin-left: 10px; margin-right:10px;border-radius: 20px; border: none; font-size: 20px; cursor: pointer; width: auto; padding: 10px 20px; outline: none;">
-            Send
-        </button>             
+    <div id="messageInputContainer">
+        <input type="text" id="messageInput" placeholder="Type your message...">
+        <button onclick="sendMessage" id="sendButton">Send</button>
     </div>
     <script src="script/chat.js"></script>
 </body>
-</html> 
+</html>
