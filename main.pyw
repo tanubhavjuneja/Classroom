@@ -51,6 +51,63 @@ def get_username():
     username = get_username_from_ip(ip_address)
     print(f"Getting username for IP {ip_address}: {username}")
     return {'username': username}
+@app.route('/ide/open_page')
+def open_page():
+    ip_address = request.environ.get('REMOTE_ADDR')
+    print(f"IP Address: {ip_address}")
+    username = get_username_from_ip(ip_address)
+    print(f"Retrieved Username: {username}")
+    if username:
+        page_list = get_user_pages(ip_address, username)
+        return template('open_page', page_list=page_list)
+    else:
+        print("No username found. Redirecting to login page...")
+        return redirect('/login')
+def get_user_pages(ip_address, username):
+    user_folder = get_upload_folder_for_ip(ip_address, username)
+    all_pages = [d for d in os.listdir(user_folder) if os.path.isdir(os.path.join(user_folder, d))]
+    print(all_pages)
+    return [page for page in all_pages]
+@app.route('/ide/add_page')
+def show_add_page():
+    return static_file('add_page.html', root='.')
+@app.route('/ide/create_page', method='POST')
+def create_page():
+    page_name = request.forms.get('pageName')
+    if not page_name or not page_name.isalnum():
+        print("Invalid pageName")
+        return redirect('/ide/add_page')
+    ip_address = request.environ.get('REMOTE_ADDR')
+    username = get_username_from_ip(ip_address)
+    page_folder = get_project_folder(ip_address, username, page_name)
+    if not os.path.exists(page_folder):
+        os.makedirs(page_folder)
+        default_files = {'index.html': '',
+            'styles.css': '',
+            'script.js': ''}
+        for filename, content in default_files.items():
+            with open(os.path.join(page_folder, filename), 'w') as file:
+                file.write(content)
+    else:
+        print(f"Page '{page_name}' already exists.")
+        return redirect('/ide/add_page')
+    return redirect(f'/ide?project_name={page_name}')
+@app.route('/pages/<page_name>')
+def view_page(page_name):
+    ip_address = request.environ.get('REMOTE_ADDR')
+    username = get_username_from_ip(ip_address)
+    if username:
+        project_folder = get_project_folder(ip_address, username, page_name)
+        if os.path.exists(project_folder):
+            combined_code = combine_code(project_folder)
+            response.content_type = 'text/html; charset=utf-8'
+            response.body = combined_code
+            return response
+        else:
+            return f"Page '{page_name}' not found."
+    else:
+        print("No username found. Redirecting to login page...")
+        return redirect('/login')
 @app.route('/ide')
 def ide():
     ip_address = request.environ.get('REMOTE_ADDR')
@@ -58,7 +115,7 @@ def ide():
     username = get_username_from_ip(ip_address)
     print(f"Retrieved Username: {username}")
     if username:
-        project_name = request.query.get('project_name', 'default')
+        project_name = request.query.get('project_name', 'Homepage')
         project_folder = get_project_folder(ip_address, username, project_name)
         print(f"Project folder: {project_folder}")
         if not os.path.exists(project_folder):
@@ -77,7 +134,7 @@ def ide():
 def render_combined_code():
     ip_address = request.environ.get('REMOTE_ADDR')
     username = get_username_from_ip(ip_address)
-    project_name = request.query.get('project_name', 'default')
+    project_name = request.query.get('project_name', 'Homepage')
     project_folder = get_project_folder(ip_address, username, project_name)
     combined_code = combine_code(project_folder)
     print(f"Combined code for project {project_name}:\n{combined_code}")
@@ -236,10 +293,8 @@ def save():
     code = request.forms.get('code')
     ip_address = request.environ.get('REMOTE_ADDR')
     username = get_username_from_ip(ip_address)
-    project_name = request.query.get('project_name', 'default')
+    project_name = request.query.get('project_name') 
     project_folder = get_project_folder(ip_address, username, project_name)
-    if not os.path.exists(project_folder):
-        os.makedirs(project_folder)
     filename = os.path.join(project_folder, get_filename(language))
     with open(filename, 'w') as file:
         file.write(code)
@@ -250,7 +305,7 @@ def load():
     language = request.query.get('language')
     ip_address = request.environ.get('REMOTE_ADDR')
     username = get_username_from_ip(ip_address)
-    project_name = request.query.get('project_name', 'default')
+    project_name = request.query.get('project_name')
     project_folder = get_project_folder(ip_address, username, project_name)
     filename = os.path.join(project_folder, get_filename(language))
     try:

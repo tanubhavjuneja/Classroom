@@ -53,31 +53,34 @@ function setPlaceholder() {
 }
 function saveToFile(language) {
     var code = document.getElementById('code').value;
-    if (code.trim() !== '') {
+    var projectName = getPageNameFromUrl();
+    if (code.trim() !== '' && projectName) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 document.getElementById('code').value = '';
             }
         };
-        xhr.open('POST', '/save', true);
+        xhr.open('POST', '/save?project_name=' + encodeURIComponent(projectName), true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.send('language=' + language + '&code=' + encodeURIComponent(code));
     }
 }
 function loadFromFile(language) {
     var xhr = new XMLHttpRequest();
+    var projectName = getPageNameFromUrl();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             document.getElementById('code').value = xhr.responseText;
         }
     };
-    xhr.open('GET', '/load?language=' + language, true);
+    xhr.open('GET', `/load?language=${language}&project_name=${projectName}`, true);
     xhr.send();
 }
 function renderCode() {
     saveToFile(currentLanguage);
     var xhr = new XMLHttpRequest();
+    var projectName = getPageNameFromUrl();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             var newTab = window.open();
@@ -86,7 +89,7 @@ function renderCode() {
             newTab.document.close();
         }
     };
-    xhr.open('GET', '/render', true);
+    xhr.open('GET', `/render?project_name=${projectName}`, true);
     xhr.send();
     loadFromFile(currentLanguage);
     setPlaceholder();
@@ -99,3 +102,13 @@ document.getElementById('code').addEventListener('input', function () {
         this.placeholder = '';
     }
 });
+function addPage(){
+    window.location.href='/ide/add_page';
+}
+function openPage(){
+    window.location.href='/ide/open_page';
+}
+function getPageNameFromUrl() {
+    var urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('project_name');
+}
