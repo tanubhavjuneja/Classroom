@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Upload</title>
+    <link rel="stylesheet" type="text/css" href="styles/notes.css">
+    <script src="script/notes.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload File</h1>
+        <form action="/notes/upload" method="post" enctype="multipart/form-data">
+            <label for="file-upload" class="file-upload-container">
+                <i class="fas fa-cloud-upload-alt"></i> Click to upload
+                <input id="file-upload" type="file" name="file" multiple>
+            </label>
+            <p id="file-count">No files selected</p>
+            <div class="button-container">
+                <a href="/notes/history" class="history-button">History</a>
+                <button type="submit" class="upload-button">Upload</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

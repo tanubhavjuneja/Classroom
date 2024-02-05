@@ -13,7 +13,7 @@ UPLOAD_FOLDER = 'projects/'
 NOTES_FOLDER = 'notes'
 WEB_FOLDER="Webpages"
 def get_username_from_ip(ip_address):
-    with open('user_history.txt', 'r') as file:
+    with open('Resources/user_history.txt', 'r') as file:
         lines = file.readlines()
         for line in lines:
             parts = line.strip().split(',')
@@ -36,9 +36,6 @@ def get_project_folder(ip_address, username, project_name):
     user_folder = f"{sanitized_ip}_{sanitized_username}"
     project_folder = os.path.join(UPLOAD_FOLDER, user_folder, sanitized_project)
     return project_folder
-@app.route('/')
-def redirect_to_https():
-    redirect('https://' + request.get_header('Host') + request.path)
 @app.route('/styles/<filename:path>')
 def serve_styles(filename):
     return static_file(filename, root='styles')
@@ -59,7 +56,7 @@ def open_page():
     print(f"Retrieved Username: {username}")
     if username:
         page_list = get_user_pages(ip_address, username)
-        return template('open_page', page_list=page_list)
+        return template('html/open_page.html', page_list=page_list)
     else:
         print("No username found. Redirecting to login page...")
         return redirect('/login')
@@ -70,7 +67,7 @@ def get_user_pages(ip_address, username):
     return [page for page in all_pages]
 @app.route('/ide/add_page')
 def show_add_page():
-    return static_file('add_page.html', root='.')
+    return static_file('add_page.html', root='html')
 @app.route('/ide/create_page', method='POST')
 def create_page():
     page_name = request.forms.get('pageName')
@@ -115,7 +112,9 @@ def ide():
     username = get_username_from_ip(ip_address)
     print(f"Retrieved Username: {username}")
     if username:
-        project_name = request.query.get('project_name', 'Homepage')
+        project_name = request.query.get('project_name')
+        if not project_name:
+            return redirect('/ide?project_name=Homepage')
         project_folder = get_project_folder(ip_address, username, project_name)
         print(f"Project folder: {project_folder}")
         if not os.path.exists(project_folder):
@@ -126,7 +125,7 @@ def ide():
             for filename, content in default_files.items():
                 with open(os.path.join(project_folder, filename), 'w') as file:
                     file.write(content)
-        return template('ide', html_code='', project_folder=project_folder)
+        return template('html/ide.html', html_code='', project_folder=project_folder)
     else:
         print("No username found. Redirecting to login page...")
         return redirect('/login')
@@ -163,7 +162,7 @@ def study_material():
     print(f"Retrieved Username: {username}")
     if username:
         print("Username exists. Redirecting to main page...")
-        return static_file('study_material.html', root='.')
+        return static_file('study_material.html', root='html')
     else:
         print("No username found. Redirecting to login page...")
         return redirect('/login')
@@ -178,7 +177,7 @@ def webscraper():
     print(f"Retrieved Username: {username}")
     if username:
         print("Username exists. Redirecting to main page...")
-        return static_file('webscraper.html', root='.')
+        return static_file('webscraper.html', root='html')
     else:
         print("No username found. Redirecting to login page...")
         return redirect('/login')
@@ -260,7 +259,7 @@ def index():
     print(f"Retrieved Username: {username}")
     if username:
         print("Username exists. Redirecting to main page...")
-        return static_file('index.html', root='.')
+        return static_file('index.html', root='html')
     else:
         print("No username found. Redirecting to login page...")
         return redirect('/login')
@@ -272,7 +271,7 @@ def login():
         return redirect('/')
     else:
         print("No username found. Redirecting to login page...")
-        return static_file('username.html', root='.')
+        return static_file('username.html', root='html')
 @app.route('/save_username', method='POST')
 def save_username():
     ip_address = request.environ.get('REMOTE_ADDR')
@@ -280,13 +279,13 @@ def save_username():
     if get_username_from_ip(ip_address) == username:
         print(f"Username {username} already exists for IP address {ip_address}")
         return redirect('/')
-    with open('user_history.txt', 'a') as file:
+    with open('Resources/user_history.txt', 'a') as file:
         file.write(f"{ip_address},{username}\n")
     print(f"Saved username {username} for IP address {ip_address}")
     return redirect('/')
 @app.route('/favicon.ico')
 def favicon():
-    return static_file('favicon.ico', root='./')
+    return static_file('favicon.ico', root='Resources')
 @app.route('/save', method='POST')
 def save():
     language = request.forms.get('language')
@@ -345,7 +344,7 @@ def notes():
     if not os.path.exists(NOTES_FOLDER):
         os.makedirs(NOTES_FOLDER)
     print(f"Created or verified existence of folder {NOTES_FOLDER}")
-    return template('notes.html')
+    return static_file('notes.html', root='html')
 @app.route('/notes/upload', method='POST')
 def do_upload():
     upload = request.files.get('file')
@@ -353,7 +352,7 @@ def do_upload():
         filename = os.path.join(NOTES_FOLDER, upload.filename)
         upload.save(filename)
     print(f"Uploaded file to folder {NOTES_FOLDER}")
-    return template('notes.html')
+    return redirect('/notes')
 @app.route('/notes/uploads/<filename:path>')
 def serve_static(filename):
     file_path = os.path.join(NOTES_FOLDER, filename)
@@ -375,7 +374,7 @@ def history():
             'download_path': f'/notes/download/{file_name}'
         })
     print(f"Listed files in folder {NOTES_FOLDER}: {download_links}")
-    return template('history.html', files=download_links)
+    return template('html/history.html', files=download_links)
 @app.route('/webscraper/history')
 def web_history():
     files = os.listdir(WEB_FOLDER)
@@ -387,7 +386,7 @@ def web_history():
             'download_path': f'/webscraper/download/{file_name}'
         })
     print(f"Listed files in folder {WEB_FOLDER}: {download_links}")
-    return template('web_history.html', files=download_links)
+    return template('html/web_history.html', files=download_links)
 @app.route('/webscraper/download/<filename:path>')
 def download_web_file(filename):
     folder_path = os.path.join(WEB_FOLDER, filename)
@@ -422,7 +421,7 @@ def chat():
     print(f"Retrieved Username: {username}") 
     if username:
         print("Username exists. Redirecting to main chat page...") 
-        return static_file('chat.html', root='.')
+        return static_file('chat.html', root='html')
     else:
         print("No username found. Redirecting to login page...") 
         return redirect('/login')
@@ -433,15 +432,15 @@ def send():
     username = get_username_from_ip(ip_address)
     if not username:
         return "Username required"
-    with open('chat_history.txt', 'a') as file:
+    with open('Resources/chat_history.txt', 'a') as file:
         file.write(f"{ip_address} ({username}): {message}\n")
-    print("Message received and recorded in chat_history.txt")
+    print("Message received and recorded in Resources/chat_history.txt")
     return "Message received"
 @app.route('/chat/receive')
 def receive():
     global messages,messageList
     ip_address = request.environ.get('REMOTE_ADDR')
-    with open('chat_history.txt', 'r') as file:
+    with open('Resources/chat_history.txt', 'r') as file:
         messages = file.readlines()
     messageIndex=messageDict[ip_address][1]
     messageList=len(messages)
@@ -453,7 +452,7 @@ def receive():
 def load_chat():
     global messages
     ip_address = request.environ.get('REMOTE_ADDR')
-    with open('chat_history.txt', 'r') as file:
+    with open('Resources/chat_history.txt', 'r') as file:
         messages = file.readlines()
     messageDict[ip_address]=[0,len(messages)]
     print(f"Read chat messages: {messages}")
@@ -469,10 +468,10 @@ def start_server():
     run(app, host='0.0.0.0', port=80, debug=True)
 if __name__ == '__main__':
     messageDict={'0.0.0.0':[0,0]}
-    if not os.path.exists('chat_history.txt'):
-        with open('chat_history.txt', 'w') as file:
+    if not os.path.exists('Resources/chat_history.txt'):
+        with open('Resources/chat_history.txt', 'w') as file:
             pass
-    if not os.path.exists('user_history.txt'):
-        with open('user_history.txt', 'w') as file:
+    if not os.path.exists('Resources/user_history.txt'):
+        with open('Resources/user_history.txt', 'w') as file:
             pass
     start_server()

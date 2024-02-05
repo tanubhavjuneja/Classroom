@@ -1,9 +1,0 @@
-192.168.1.4,Tanubhav
-192.168.1.8,Tanubhav
-127.0.0.1,Tanubhav
-192.168.1.3,Tanubhav
-192.168.1.10,Tanubhav
-192.168.1.5,Vandana
-192.168.1.9,Laptop
-192.168.1.12,Tanubhav
-192.168.1.2,Vandana
