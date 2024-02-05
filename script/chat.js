@@ -1,3 +1,5 @@
+const chatFrame = document.getElementById('chatFrame');
+let userScrolledManually = false; 
 function getUsernameFromServer() {
     fetch('/get_username')
     .then(response => response.json())
@@ -20,15 +22,12 @@ function getUsernameFromServer() {
         console.error('Error:', error);
     });
 }
-getUsernameFromServer();
-let userScrolledManually = false; 
 function scrollToBottom() {
-const chatFrame = document.getElementById('chatFrame');
-chatFrame.scrollTop = chatFrame.scrollHeight;
+    const chatFrame = document.getElementById('chatFrame');
+    chatFrame.scrollTop = chatFrame.scrollHeight;
 }
-const chatFrame = document.getElementById('chatFrame');
 chatFrame.addEventListener('scroll', function() {
-userScrolledManually = chatFrame.scrollTop + chatFrame.clientHeight < chatFrame.scrollHeight;
+    userScrolledManually = chatFrame.scrollTop + chatFrame.clientHeight < chatFrame.scrollHeight;
 });
 function fetchMessagesFromServer() {
     fetch('/chat/receive')
@@ -65,29 +64,27 @@ function loadChat() {
             console.error('Error fetching messages:', error);
         });
 }
-loadChat();
 function startMessageFetchingScheduler() {
     setInterval(() => {
-    fetchMessagesFromServer();
+        fetchMessagesFromServer();
     }, 1000); 
 }
-startMessageFetchingScheduler();
 function appendMessageToChatFrame(message) {
-const chatFrame = document.getElementById('chatFrame');
-const messageContainer = document.createElement('div');
-messageContainer.className = 'messageContainer';
-const messageBubble = document.createElement('div');
-messageBubble.className = 'messageBubble';
-const match = message.match(/^\d+\.\d+\.\d+\.\d+ \(([^)]+)\): (.+)$/);
-if (match && match.length === 3) {
-const username = match[1];
-const content = match[2];
-messageBubble.innerText = `${username}: ${content}`;
-} else {
-messageBubble.innerText = message;
-}
-messageContainer.appendChild(messageBubble);
-chatFrame.appendChild(messageContainer);
+    const chatFrame = document.getElementById('chatFrame');
+    const messageContainer = document.createElement('div');
+    messageContainer.className = 'messageContainer';
+    const messageBubble = document.createElement('div');
+    messageBubble.className = 'messageBubble';
+    const match = message.match(/^\d+\.\d+\.\d+\.\d+ \(([^)]+)\): (.+)$/);
+    if (match && match.length === 3) {
+        const username = match[1];
+        const content = match[2];
+        messageBubble.innerText = `${username}: ${content}`;
+    } else {
+        messageBubble.innerText = message;
+    }
+    messageContainer.appendChild(messageBubble);
+    chatFrame.appendChild(messageContainer);
 }
 function sendMessage() {
     const messageInput = document.getElementById('messageInput');
@@ -111,8 +108,11 @@ function sendMessage() {
     }
 }
 document.getElementById('messageInput').addEventListener('keydown', function(event) {
-if (event.key === 'Enter') {
-event.preventDefault();
-sendMessage(); 
-}
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage(); 
+    }
 });
+startMessageFetchingScheduler();
+getUsernameFromServer();
+loadChat();

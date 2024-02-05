@@ -55,7 +55,7 @@ body, html {
     margin-right: 20px;
     word-wrap: break-word;
 }
-.messageInputContainer {
+#messageInputContainer {
     position: fixed;
     bottom: 0;
     width: 99%;
@@ -64,7 +64,7 @@ body, html {
     display: flex;
     align-items: center;
 }
-.messageInput {
+#messageInput {
     flex: 1;
     padding: 10px;
     background-color: #2f2f2f;
@@ -72,7 +72,7 @@ body, html {
     border: 2px solid darkorchid;
     border-radius: 20px;
 }
-.sendButton {
+#sendButton {
     background-color: darkorchid;
     color: white;
     margin-left: 10px;
