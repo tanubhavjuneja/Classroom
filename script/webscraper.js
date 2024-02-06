@@ -10,4 +10,5 @@ function scrapeWebpage() {
     xhr.open("POST", "/scrape", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send("url=" + encodeURIComponent(urlInput));
+    window.location.href="/webscraper/history"
 }
