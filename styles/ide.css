@@ -5,6 +5,9 @@ body {
     background-color: #141414;
     color: #FFFFFF;
 }
+.button-container img{
+    margin: 5px 5px 0px 0px;
+}
 .button-container {
     display: flex;
     flex-direction: row;
@@ -32,7 +35,7 @@ button {
 textarea {
     resize: none;
     flex-grow: 1;
-    height: calc(100vh - 110px);
+    height: calc(100vh - 160px);
     margin: 1%;
     padding-top: 1%;
     padding-left: 1%;
@@ -58,4 +61,27 @@ textarea::-webkit-scrollbar-track {
 textarea::-webkit-scrollbar-thumb {
     background-color: darkorchid;
     border-radius: 10px;
+}
+footer {
+    margin-top: 100px;
+    background-color: black; 
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+footer a {
+    margin: none; 
+}
+footer img {
+    width: auto;
+    height: 30px;
+    margin: 0 20px;
+}
+@media screen and (max-width: 1200px) {
+    textarea {
+        border-radius: 10px;    
+        height: calc(100vh - 180px);
+    }
 }

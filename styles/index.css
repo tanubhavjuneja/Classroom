@@ -1,59 +1,116 @@
 body {
+    font-family: Arial, sans-serif;
+    background-color: #232323; 
+    color: #fff;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    background-color: #141414;
-    color: #FFFFFF;
-    font-family: Arial, sans-serif; 
+    padding: 0;
+}
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #333333;
+}
+::-webkit-scrollbar-thumb {
+    background-color: darkorchid;
+    border-radius: 10px;
 }
 header {
-    background-color: #141414;
-    padding: 10px;
-    text-align: left;
+    background-color: #9932CC; 
+    color: #fff; 
+    padding: 5px;
+    text-align: center;
+    align-items: center;
+    height: 60px;
+    display: flex;
 }
-label {
-    font-size: 50px;
+header img{
+    margin: 20px;
+}
+h1{
     margin-left: 20px;
-    margin-top: 20px;
-    color: darkorchid; 
 }
 main {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 20px;
+    text-align: center;
 }
-.button-container {
-    margin-top: 100px;
+.box-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 150px;
+    grid-template-columns: repeat(3, 1fr); 
+    grid-gap: 20px;
+    justify-content: center;
+    margin-bottom: 50px;
 }
-.navigation-button {
-    width: 480px; 
-    height: 220px; 
-    background-color: darkorchid;
-    color: #FFFFFF;
+.box {
+    background-color: #333;
+    border-radius: 10px;
+    padding: 40px;
+    max-width: 550px; 
+    text-align: left;
+    height: 300px;
+}
+.box h2 {
+    margin-top: 0;
+    color: darkorchid;
+    font-size: 48px;
+    line-height: 1.5; 
+}
+.box p {
+    margin-bottom: 30px; 
+    font-size: 30px;
+    line-height: 1.5; 
+    color: white;
+}
+.box button {
+    padding: 15px 30px;
     border: none;
-    border-radius: 25px;
+    border-radius: 5px;
+    background-color: #9932CC; 
+    color: #fff;
     font-size: 30px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
-@media only screen and (max-width: 1300px) {
-    .button-container {
-        margin-top: 50px;
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        gap: 50px;
+.box button:hover {
+    background-color: #8A2BE2; 
+}
+footer {
+    margin-top: 100px;
+    background-color: black; 
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+footer a {
+    margin: none; 
+}
+footer img {
+    width: auto;
+    height: 30px;
+    margin: 0 20px;
+}
+@media screen and (max-width: 1200px) {
+    h1{
+        margin-left: 5px;
+        font-size: 25px;
     }
-    .navigation-button {
-        width: 340px; 
-        height: 70px; 
-        background-color: darkorchid;
-        color: #FFFFFF;
-        border: none;
-        border-radius: 25px;
-        font-size: 30px;
-        cursor: pointer;
+    .box-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .box{
+        height: 200px;
+    }
+    .box h2{
+        margin-top: -20px;
+        font-size: 35px;
+    }
+    .box p{
+        font-size: 20px;
+        margin-top: -15px;
+    }
+    .box button{
+        font-size: 20px;
     }
 }

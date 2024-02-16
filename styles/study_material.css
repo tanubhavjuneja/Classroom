@@ -1,72 +1,86 @@
 body {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    background-color: #141414;
-    color: #FFFFFF;
     font-family: Arial, sans-serif;
+    background-color: #232323;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background: #333333;
+}
+::-webkit-scrollbar-thumb {
+    background-color: darkorchid;
+    border-radius: 10px;
 }
 header {
-    background-color: #141414;
-    padding: 10px;
-    text-align: left;
-}
-label {
-    font-size: 50px;
-    margin-left: 20px;
-    margin-top: 20px;
-    color: darkorchid;
-}
-a {
-    text-decoration: none;
-    color: inherit;
-}
-main {
-    flex-grow: 1;
+    background-color: darkorchid;
+    padding: 10px 0;
+    text-align: center;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    height: 30px;
+}
+header img{
+    size: 5px;
+    margin: 1px 10px;
+}
+.file-container{
+    margin-bottom: 100px;
+}
+.main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
 .heading {
-    font-size: 70px;
-    color: white;
-    margin-top: 20px;
-    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 1px 10px;
 }
-.file-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); 
-    gap: 100px;
-    padding: 100px;
+.book {
+    background-color: #333;
+    padding: 20px;
+    margin: 50px;
+    border-radius: 30px;
 }
-.file-card {
-    background-color: darkorchid;
-    padding: 15px;
-    border-radius: 10px;
-    text-align: center;
-}
-.file-name {
+.book h2 {
+    color: darkorchid;
     font-size: 30px;
-    color: white;
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
-@media only screen and (max-width: 1300px) {
-    .file-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 100px;
-        padding: 100px;
-    }
-    .file-card {
-        background-color: darkorchid;
-        padding: 15px;
-        border-radius: 10px;
-        text-align: center;
-    }
-    .file-name {
-        font-size: 30px;
-        color: white;
-        margin-top: 10px;
-    }
+.book p {
+    color: #ffffff;
+    font-size: 22px;
+    line-height: 1.5;
+}
+button {
+    background-color: darkorchid;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 22px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+button:hover {
+    background-color: #8a2be2;
+}
+footer {
+    margin-top: 100px;
+    background-color: black; 
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+footer a {
+    margin: none; 
+}
+footer img {
+    width: auto;
+    height: 30px;
+    margin: 0 20px;
 }

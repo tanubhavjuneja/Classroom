@@ -39,6 +39,9 @@ def get_project_folder(ip_address, username, project_name):
 @app.route('/styles/<filename:path>')
 def serve_styles(filename):
     return static_file(filename, root='styles')
+@app.route('/Resources/<filename:path>')
+def serve_logos(filename):
+    return static_file(filename, root='Resources')
 @app.route('/script/<filename:path>')
 def serve_script(filename):
     return static_file(filename, root='script')
@@ -321,12 +324,6 @@ def get_filename(language):
         'js': 'script.js',
     }
     return filename_mapping.get(language, 'file.txt')
-@app.route('/list_files')
-def list_files():
-    directory = request.query.get('dir', 'Books')
-    file_list = get_file_list(directory)
-    print(f"Listed files in directory {directory}: {file_list}")
-    return {'files': file_list}
 @app.route('/download/<filename:path>')
 def download_file(filename):
     file_path = os.path.join('Books', filename)

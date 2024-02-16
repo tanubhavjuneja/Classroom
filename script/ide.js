@@ -5,8 +5,6 @@ let counterHistory = [0];
 let historyIndex = 0;
 const counterBtn = document.getElementById('counterBtn');
 const counterValue = document.getElementById('counterValue');
-loadFromFile(currentLanguage);
-setPlaceholder();
 counterBtn.addEventListener('click', () => {
     counter++;
     counterValue.textContent = `Counter: ${counter}`;
@@ -112,3 +110,5 @@ function getPageNameFromUrl() {
     var urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('project_name');
 }
+loadFromFile(currentLanguage);
+setPlaceholder();

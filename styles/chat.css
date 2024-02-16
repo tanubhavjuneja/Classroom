@@ -13,13 +13,18 @@ body, html {
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    background-color: #2f2f2f;
+    background-color: darkorchid;
+    height: 30px;
+}
+#header img{
+    margin:10px 10px;
 }
 #usernameInput {
-    margin-top: -18px;
+    margin-top: -5px;
     width: 100%;
     padding: 15px;
     font-size: 25px;
+    height: 20px;
     border: none;
     background-color: darkorchid;
     color: white;

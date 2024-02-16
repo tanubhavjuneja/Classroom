@@ -5,20 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
     <link rel="stylesheet" type="text/css" href="styles/index.css">
+    <script src="/script/index.js"></script>
 </head>
 <body>
     <header>
-        <label id="usernameLabel"></label>
+        <img src="/Resources/favicon.ico">
+        <h1>Welcome to Your Dashboard</h1>
     </header>
-    <main style="padding-bottom: 50px;">
-        <div class="button-container">
-            <button class="navigation-button" onclick="navigateTo('study_material')">Study Material</button>
-            <button class="navigation-button" onclick="navigateTo('ide?project_name=Homepage')">IDE</button>
-            <button class="navigation-button" onclick="navigateTo('chat')">Group Chat</button>
-            <button class="navigation-button" onclick="navigateTo('notes')">Notes</button>
-            <button class="navigation-button" onclick="navigateTo('webscraper')">Webscraper</button>
+    <main>
+        <div class="box-container">
+            <div class="box">
+                <h2>Books</h2>
+                <p>Access our extensive collection of study resources.</p>
+                <button onclick="navigateTo('study_material')">Explore</button>
+            </div>
+            <div class="box">
+                <h2>IDE</h2>
+                <p>Start coding your project in our integrated development environment.</p>
+                <button onclick="navigateTo('ide?project_name=Homepage')">Start Coding</button>
+            </div>
+            <div class="box">
+                <h2>Group Chat</h2>
+                <p>Connect with your peers and discuss various topics.</p>
+                <button onclick="navigateTo('chat')">Join Chat</button>
+            </div>
+            <div class="box">
+                <h2>Notes</h2>
+                <p>Share and receive class notes and other material.</p>
+                <button onclick="navigateTo('notes')">View Notes</button>
+            </div>
+            <div class="box">
+                <h2>Webscraper</h2>
+                <p>Scrape webpages for your projects or research.</p>
+                <button onclick="navigateTo('webscraper')">Scrape Data</button>
+            </div>
         </div>
     </main>
-    <script src="script/index.js"></script>
+    <footer>
+        <a href="https://github.com/tanubhavjuneja" style="margin-left: -20px;"><img src="/Resources/github.png" alt="GitHub"></a>
+        <a href="https://www.linkedin.com/in/tanubhav-juneja-119211244/" style="margin-left: -10px;"><img src="/Resources/linkedin.png" alt="LinkedIn"></a>
+        <a href="https://buymeacoffee.com/tanubhavjuneja"><img src="/Resources/buymeacoffee.png" alt="BuyMeACoffee"></a>
+        <a href="https://www.instagram.com/tanubhavjuneja"><img src="/Resources/instagram.png" alt="Instagram"></a>
+        <a href="https://wa.me/7827139401"><img src="/Resources/whatsapp.png" alt="WhatsApp"></a>
+    </footer>
 </body>
 </html>
