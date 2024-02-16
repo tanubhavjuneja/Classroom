@@ -5,17 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Chat</title>
     <link rel="stylesheet" type="text/css" href="/styles/chat.css">
+    <script src="/script/chat.js"></script>
 </head>
 <body>
     <div id="header">
         <a href="/"><img src="/Resources/favicon.ico" alt="Home"></a>
-        <input type="text" id="usernameInput" placeholder="Enter your username...">
+        <input type="text" onchange="changeUsername()" id="usernameInput" placeholder="Enter your username...">
     </div>
     <div id="chatFrame"></div>
     <div id="messageInputContainer">
         <input type="text" id="messageInput" placeholder="Type your message...">
         <button onclick="sendMessage()" id="sendButton">Send</button>
     </div>
-    <script src="/script/chat.js"></script>
+    <footer>
+        <a href="https://github.com/tanubhavjuneja" style="margin-left: -20px;"><img src="/Resources/github.png" alt="GitHub"></a>
+        <a href="https://www.linkedin.com/in/tanubhav-juneja-119211244/" style="margin-left: -10px;"><img src="/Resources/linkedin.png" alt="LinkedIn"></a>
+        <a href="https://buymeacoffee.com/tanubhavjuneja"><img src="/Resources/buymeacoffee.png" alt="BuyMeACoffee"></a>
+        <a href="https://www.instagram.com/tanubhavjuneja"><img src="/Resources/instagram.png" alt="Instagram"></a>
+        <a href="https://wa.me/7827139401"><img src="/Resources/whatsapp.png" alt="WhatsApp"></a>
+    </footer>
 </body>
 </html>

@@ -45,3 +45,20 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #9932cc;
 }
+footer {
+    margin-top: 100px;
+    background-color: black; 
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+footer a {
+    margin: none; 
+}
+footer img {
+    width: auto;
+    height: 30px;
+    margin: 0 20px;
+}

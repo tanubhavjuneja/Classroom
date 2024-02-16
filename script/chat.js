@@ -1,20 +1,47 @@
 const chatFrame = document.getElementById('chatFrame');
 let userScrolledManually = false; 
+document.addEventListener('DOMContentLoaded', function() {
+    getUsernameFromServer();
+    startMessageFetchingScheduler();
+    loadChat();
+    document.getElementById('messageInput').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage(); 
+        }
+    });
+    function startMessageFetchingScheduler() {
+        setInterval(() => {
+            fetchMessagesFromServer();
+        }, 1000); 
+    }
+    const chatFrame = document.getElementById('chatFrame');
+    if (chatFrame) {
+        chatFrame.addEventListener('scroll', function() {
+            userScrolledManually = chatFrame.scrollTop + chatFrame.clientHeight < chatFrame.scrollHeight;
+        });
+    } else {
+        console.error('Element with ID "chatFrame" not found.');
+    }
+});
 function getUsernameFromServer() {
     fetch('/get_username')
     .then(response => response.json())
     .then(data => {
+        console.log('Received data from server:', data);
         const username = data.username;
         if (username) {
+            console.log('Username received from server:', username);
             document.getElementById('usernameInput').value = username;
+            localStorage.setItem('username', username)
         } else {
+            console.log('No username received from server');
             const storedUsername = localStorage.getItem('username');
             if (storedUsername) {
+                console.log('Using stored username:', storedUsername);
                 document.getElementById('usernameInput').value = storedUsername;
             } else {
-                const newUsername = prompt('Please enter your username:');
-                document.getElementById('usernameInput').value = newUsername;
-                localStorage.setItem('username', newUsername);
+                console.log('No stored username found');
             }
         }
     })
@@ -22,13 +49,21 @@ function getUsernameFromServer() {
         console.error('Error:', error);
     });
 }
+function changeUsername(){
+    const newUsername = document.getElementById('usernameInput').value;
+    localStorage.setItem('username', newUsername);
+    fetch('/change_username', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `new_username=${newUsername}`
+    })
+}
 function scrollToBottom() {
     const chatFrame = document.getElementById('chatFrame');
     chatFrame.scrollTop = chatFrame.scrollHeight;
 }
-chatFrame.addEventListener('scroll', function() {
-    userScrolledManually = chatFrame.scrollTop + chatFrame.clientHeight < chatFrame.scrollHeight;
-});
 function fetchMessagesFromServer() {
     fetch('/chat/receive')
         .then(response => response.json())
@@ -63,11 +98,6 @@ function loadChat() {
         .catch(error => {
             console.error('Error fetching messages:', error);
         });
-}
-function startMessageFetchingScheduler() {
-    setInterval(() => {
-        fetchMessagesFromServer();
-    }, 1000); 
 }
 function appendMessageToChatFrame(message) {
     const chatFrame = document.getElementById('chatFrame');
@@ -107,12 +137,3 @@ function sendMessage() {
         });
     }
 }
-document.getElementById('messageInput').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        sendMessage(); 
-    }
-});
-startMessageFetchingScheduler();
-getUsernameFromServer();
-loadChat();

@@ -31,7 +31,7 @@ body, html {
     box-sizing: border-box;
 }
 #chatFrame {
-    height: calc(100% - 142px);
+    height: calc(100% - 192px);
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: darkorchid #333333;
@@ -62,7 +62,7 @@ body, html {
 }
 #messageInputContainer {
     position: fixed;
-    bottom: 0;
+    bottom: 55px;
     width: 99%;
     background-color: #2f2f2f;
     padding: 10px;
@@ -89,4 +89,21 @@ body, html {
     width: auto;
     padding: 10px 20px;
     outline: none;
+}
+footer {
+    margin-top: 100px;
+    background-color: black; 
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+footer a {
+    margin: none; 
+}
+footer img {
+    width: auto;
+    height: 30px;
+    margin: 0 20px;
 }

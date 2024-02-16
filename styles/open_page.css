@@ -45,6 +45,23 @@ body {
 .page-link:hover {
     text-decoration: underline;
 }
+footer {
+    margin-top: 100px;
+    background-color: black; 
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+footer a {
+    margin: none; 
+}
+footer img {
+    width: auto;
+    height: 30px;
+    margin: 0 20px;
+}
 @media only screen and (max-width: 1300px) {
     .page-list-container {
         width: 80%;

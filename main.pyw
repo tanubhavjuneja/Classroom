@@ -51,6 +51,11 @@ def get_username():
     username = get_username_from_ip(ip_address)
     print(f"Getting username for IP {ip_address}: {username}")
     return {'username': username}
+@app.route('/debug', method='POST')
+def debug():
+    data = request.body.read().decode('utf-8')
+    print("Received from client:", data)
+    return "Debug data received"
 @app.route('/ide/open_page')
 def open_page():
     ip_address = request.environ.get('REMOTE_ADDR')
@@ -254,6 +259,23 @@ def sanitize_filename(url):
         filename = ''.join(c if c.isalnum() or c in {'_', '.'} else '_' for c in unquote(url))
         filename = filename[:255]
     return filename
+@app.route('/change_username', method='POST')
+def change_username():
+    ip_address = request.environ.get('REMOTE_ADDR')
+    new_username = request.forms.get('new_username').strip()
+    if not new_username:
+        return "New username cannot be empty"
+    with open('Resources/user_history.txt', 'r') as file:
+        lines = file.readlines()
+    with open('Resources/user_history.txt', 'w') as file:
+        for line in lines:
+            parts = line.strip().split(',')
+            if len(parts) == 2:
+                saved_ip, username = parts
+                if saved_ip == ip_address:
+                    file.write(f"{saved_ip},{new_username}\n")
+                else:
+                    file.write(line)
 @app.route('/')
 def index():
     ip_address = request.environ.get('REMOTE_ADDR')
