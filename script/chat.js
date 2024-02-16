@@ -129,7 +129,6 @@ function sendMessage() {
             body: `message=${encodeURIComponent(message)}&username=${encodeURIComponent(username)}`
         })
         .then(() => {
-            fetchMessagesFromServer();
             messageInput.value = '';
         })
         .catch(error => {
