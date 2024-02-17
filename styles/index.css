@@ -61,7 +61,7 @@ main {
     line-height: 1.5; 
     color: white;
 }
-.box button {
+.box a {
     padding: 15px 30px;
     border: none;
     border-radius: 5px;
@@ -69,6 +69,7 @@ main {
     color: #fff;
     font-size: 30px;
     cursor: pointer;
+    text-decoration: none;
     transition: background-color 0.3s;
 }
 .box button:hover {

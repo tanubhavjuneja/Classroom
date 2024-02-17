@@ -4,25 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     getUsernameFromServer();
     startMessageFetchingScheduler();
     loadChat();
-    document.getElementById('messageInput').addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            sendMessage(); 
-        }
-    });
-    function startMessageFetchingScheduler() {
-        setInterval(() => {
-            fetchMessagesFromServer();
-        }, 1000); 
-    }
-    const chatFrame = document.getElementById('chatFrame');
-    if (chatFrame) {
-        chatFrame.addEventListener('scroll', function() {
-            userScrolledManually = chatFrame.scrollTop + chatFrame.clientHeight < chatFrame.scrollHeight;
-        });
-    } else {
-        console.error('Element with ID "chatFrame" not found.');
-    }
 });
 function getUsernameFromServer() {
     fetch('/get_username')
@@ -135,4 +116,22 @@ function sendMessage() {
             console.error('Error:', error);
         });
     }
+}
+document.getElementById('messageInput').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage(); 
+    }
+});
+function startMessageFetchingScheduler() {
+    setInterval(() => {
+        fetchMessagesFromServer();
+    }, 1000); 
+}
+if (chatFrame) {
+    chatFrame.addEventListener('scroll', function() {
+        userScrolledManually = chatFrame.scrollTop + chatFrame.clientHeight < chatFrame.scrollHeight;
+    });
+} else {
+    console.error('Element with ID "chatFrame" not found.');
 }
