@@ -106,6 +106,9 @@ function addPage(){
 function openPage(){
     window.location.href='/ide/open_page';
 }
+function openAssets(){
+    window.location.href='/ide/assets';
+}
 function getPageNameFromUrl() {
     var urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('project_name');

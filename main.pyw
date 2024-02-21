@@ -11,6 +11,7 @@ import zipfile
 app = Bottle()
 UPLOAD_FOLDER = 'projects/'
 NOTES_FOLDER = 'notes'
+ASSETS_FOLDER = 'Assets'
 WEB_FOLDER="Webpages"
 def get_username_from_ip(ip_address):
     with open('Resources/user_history.txt', 'r') as file:
@@ -28,7 +29,7 @@ def get_upload_folder_for_ip(ip_address, username):
     sanitized_ip = sanitize_ip(ip_address)
     sanitized_username = sanitize_ip(username)
     user_folder = f"{sanitized_ip}_{sanitized_username}"
-    return os.path.join(UPLOAD_FOLDER, user_folder)
+    return os.path.join(ASSETS_FOLDER, user_folder)
 def get_project_folder(ip_address, username, project_name):
     sanitized_ip = sanitize_ip(ip_address)
     sanitized_username = sanitize_ip(username)
@@ -113,6 +114,17 @@ def view_page(page_name):
     else:
         print("No username found. Redirecting to login page...")
         return redirect('/login')
+@app.route('/assets/<asset_name>')
+def view_asset(asset_name):
+    ip_address = request.environ.get('REMOTE_ADDR')
+    username = get_username_from_ip(ip_address)
+    if username:
+        user_folder = get_upload_folder_for_ip(ip_address, username)
+        if os.path.exists(user_folder):
+            return static_file(asset_name, root=user_folder)
+    else:
+        print("No username found. Redirecting to login page...")
+        return redirect('/login')
 @app.route('/ide')
 def ide():
     ip_address = request.environ.get('REMOTE_ADDR')
@@ -137,6 +149,69 @@ def ide():
     else:
         print("No username found. Redirecting to login page...")
         return redirect('/login')
+@app.route('/ide/assets')
+def assets():
+    if not os.path.exists(ASSETS_FOLDER):
+        os.makedirs(ASSETS_FOLDER)
+    print(f"Created or verified existence of folder {ASSETS_FOLDER}")
+    return static_file('assets.html', root='html')
+@app.route('/ide/assets/upload', method='POST')
+def assets_upload():
+    ip_address = request.environ.get('REMOTE_ADDR')
+    username = get_username_from_ip(ip_address)
+    if not username:
+        return "Username required"
+    upload = request.files.get('file')
+    if upload:
+        user_folder = get_upload_folder_for_ip(ip_address, username)
+        if not os.path.exists(user_folder):
+            os.makedirs(user_folder)
+        filename = os.path.join(user_folder, upload.filename)
+        upload.save(filename)
+        print(f"Uploaded file to folder {user_folder}")
+    else:
+        print("No file uploaded")
+    return redirect('/ide/assets')
+@app.route('/ide/assets/uploads/<filename:path>')
+def serve_assets(filename):
+    ip_address = request.environ.get('REMOTE_ADDR')
+    username = get_username_from_ip(ip_address)
+    user_folder = get_upload_folder_for_ip(ip_address, username)
+    file_path = os.path.join(user_folder, filename)
+    if os.path.exists(file_path):
+        print(f"Serving static file: {file_path}")
+        return static_file(filename, root=user_folder)
+    else:
+        print("File not found")
+        return "File not found", 404
+@app.route('/ide/assets/history')
+def assets_history():
+    ip_address = request.environ.get('REMOTE_ADDR')
+    username = get_username_from_ip(ip_address)
+    user_folder = get_upload_folder_for_ip(ip_address, username)
+    files = os.listdir(user_folder)
+    download_links = []
+    for file_name in files:
+        file_path = os.path.join(user_folder, file_name)
+        download_links.append({
+            'name': file_name,
+            'path': f'/ide/assets/uploads/{file_name}',
+            'download_path': f'/ide/assets/download/{file_name}'
+        })
+    print(f"Listed files in folder {ASSETS_FOLDER}: {download_links}")
+    return template('html/history.html', files=download_links)
+@app.route('/ide/assets/download/<filename:path>')
+def download_file(filename):
+    ip_address = request.environ.get('REMOTE_ADDR')
+    username = get_username_from_ip(ip_address)
+    user_folder = get_upload_folder_for_ip(ip_address, username)
+    file_path = os.path.join(user_folder, filename)
+    if os.path.exists(file_path):
+        print(f"Attempting to serve file: {file_path}")
+        return static_file(filename, root=user_folder, download=True)
+    else:
+        print("File not found")
+        return "File not found", 404
 @app.route('/render', method='GET')
 def render_combined_code():
     ip_address = request.environ.get('REMOTE_ADDR')
@@ -394,6 +469,15 @@ def history():
         })
     print(f"Listed files in folder {NOTES_FOLDER}: {download_links}")
     return template('html/history.html', files=download_links)
+@app.route('/notes/download/<filename:path>')
+def download_file(filename):
+    file_path = os.path.join(NOTES_FOLDER, filename)
+    if os.path.exists(file_path):
+        print(f"Attempting to serve file: {file_path}")
+        return static_file(filename, root=NOTES_FOLDER, download=True)
+    else:
+        print("File not found")
+        return "File not found", 404
 @app.route('/webscraper/history')
 def web_history():
     files = os.listdir(WEB_FOLDER)
@@ -423,15 +507,6 @@ def download_web_file(filename):
         print(f"ZIP file already exists: {zip_file_path}")
     print(f"Attempting to serve file: {zip_file_path}")
     return static_file(zip_file_path, root='.', download=True)
-@app.route('/notes/download/<filename:path>')
-def download_file(filename):
-    file_path = os.path.join(NOTES_FOLDER, filename)
-    if os.path.exists(file_path):
-        print(f"Attempting to serve file: {file_path}")
-        return static_file(filename, root=NOTES_FOLDER, download=True)
-    else:
-        print("File not found")
-        return "File not found", 404
 @app.route('/chat')
 def chat():
     ip_address = request.environ.get('REMOTE_ADDR')
