@@ -36,7 +36,8 @@ body {
 .button-container {
     display: flex;
     justify-content: space-between;
-    margin-top: 50px;
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
 .history-button,
 .upload-button{
@@ -50,10 +51,22 @@ body {
     margin-top: 100px;
     text-decoration: none;
 }
+.ide-button{
+    background-color: darkorchid;
+    color: white;
+    border: none;
+    padding: 20px 120px;
+    font-size: 50px;
+    cursor: pointer;
+    border-radius: 36px;
+    margin-top: 300px;
+    text-decoration: none;
+}
 h1 {
     font-size: 80px;
     color: white;
     margin-bottom: 150px;
+    margin-top: -10px;
 }
 #file-count {
     color: white; 
