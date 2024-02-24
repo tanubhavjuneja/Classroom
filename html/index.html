@@ -7,45 +7,52 @@
     <link rel="stylesheet" type="text/css" href="styles/index.css">
 </head>
 <body>
-    <header>
-        <img src="/Resources/favicon.ico">
-        <h1>Dashboard</h1>
-    </header>
     <main>
-        <div class="box-container">
-            <div class="box">
-                <h2>Books</h2>
-                <p>Access our extensive collection of study resources.</p>
-                <a href="study_material">Explore</a>
+        <header>
+            <img src="/Resources/favicon.ico" class="favicon" onclick="scrollToTop()">
+            <div class="top-right-links">
+                <a href="/study_material">Books</a>
+                <a href="/ide">IDE</a>
+                <a href="/chat">Chat</a>
+                <a href="/notes">Notes</a>
+                <a href="/webscraper">Webscraper</a>
             </div>
-            <div class="box">
-                <h2>IDE</h2>
-                <p>Start coding your project in our integrated development environment.</p>
-                <a href="ide?project_name=Homepage">Start Coding</a>
-            </div>
-            <div class="box">
-                <h2>Group Chat</h2>
-                <p>Connect with your peers and discuss various topics.</p>
-                <a href="chat">Join Chat</a>
-            </div>
-            <div class="box">
-                <h2>Notes</h2>
-                <p>Share and receive class notes and other material.</p>
-                <a href="notes">View Notes</a>
-            </div>
-            <div class="box">
-                <h2>Webscraper</h2>
-                <p>Scrape webpages for your projects or research.</p>
-                <a href="webscraper">Scrape Data</a>
-            </div>
+        </header>
+        <div id="home" class="page">
+        </div>
+        <div id="study_material" class="page">
+            <h2>Books</h2>
+            <p>Explore a vast collection of study materials and resources covering a wide range of subjects. From textbooks to reference guides, our library is curated to support learners at every level, providing valuable resources for academic excellence and self-improvement.</p>
+            <button>Explore</button>
+        </div>
+        <div id="ide" class="page">
+            <h2>IDE</h2>
+            <p>Immerse yourself in a seamless coding experience with our integrated development environment. Designed to streamline your workflow and enhance productivity, our IDE offers powerful features such as code editing, debugging, and project management, empowering developers to bring their ideas to life efficiently.</p>
+            <button>Try Now</button>
+        </div>
+        <div id="chat" class="page">
+            <h2>Group Chat</h2>
+            <p>Join our vibrant community and engage in real-time conversations with like-minded individuals from around the world. Whether you're seeking advice, sharing insights, or simply connecting with others, our group chat platform provides a welcoming space for meaningful discussions and collaboration.</p>
+            <button>Join Chat</button>
+        </div>
+        <div id="notes" class="page">
+            <h2>Notes</h2>
+            <p>Stay organized and productive with our intuitive note-taking platform. Capture ideas, jot down important reminders, and keep track of tasks effortlessly. With features such as categorization, search functionality, and synchronization across devices, managing your notes has never been easier.</p>
+            <button>View Notes</button>
+        </div>
+        <div id="webscraper" class="page">
+            <h2>Webscraper</h2>
+            <p style="margin-left: -150px;">Unlock the power of data extraction with our advanced webscraper tool. Seamlessly gather information from websites with ease, enabling you to analyze trends, gather insights, and make informed decisions. Whether for research, analysis, or business intelligence, our webscraper simplifies the process of data collection, saving you time and effort.</p>
+            <button>Scrape Webpages</button>
         </div>
     </main>
     <footer>
-        <a href="https://github.com/tanubhavjuneja" style="margin-left: -20px;"><img src="/Resources/github.png" alt="GitHub"></a>
-        <a href="https://www.linkedin.com/in/tanubhav-juneja-119211244/" style="margin-left: -10px;"><img src="/Resources/linkedin.png" alt="LinkedIn"></a>
+        <a href="https://github.com/tanubhavjuneja"><img src="/Resources/github.png" alt="GitHub"></a>
+        <a href="https://www.linkedin.com/in/tanubhav-juneja-119211244/"><img src="/Resources/linkedin.png" alt="LinkedIn"></a>
         <a href="https://buymeacoffee.com/tanubhavjuneja"><img src="/Resources/buymeacoffee.png" alt="BuyMeACoffee"></a>
         <a href="https://www.instagram.com/tanubhavjuneja"><img src="/Resources/instagram.png" alt="Instagram"></a>
         <a href="https://wa.me/7827139401"><img src="/Resources/whatsapp.png" alt="WhatsApp"></a>
     </footer>
+    <script src="script/index.js"></script>
 </body>
 </html>

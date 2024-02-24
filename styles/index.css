@@ -1,79 +1,110 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #232323; 
-    color: #fff;
     margin: 0;
     padding: 0;
-}
-::-webkit-scrollbar {
-    width: 12px;
-}
-::-webkit-scrollbar-track {
-    background: #333333;
-}
-::-webkit-scrollbar-thumb {
-    background-color: darkorchid;
-    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 header {
-    background-color: #9932CC; 
-    color: #fff; 
-    padding: 5px;
-    text-align: center;
+    background-color: transparent;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex; 
+    justify-content: space-between; 
     align-items: center;
-    height: 60px;
+}
+h2 {
+    margin: 150px 50px 0 100px;
+    align-self: flex-start;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 60px;
+}
+p {
+    margin: 0px 150px 0px 50px;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+button {
+    margin: 600px 150px 0px 0px;
+    width: 500px;
+    height: 50px;
+    border-radius: 20px;
+    color: white;
+    background-color: transparent;
+    border-color: white;
+    border-width: 1px;
+}
+::-webkit-scrollbar {
+    width: 10px; 
+    background-color: black; 
+}
+::-webkit-scrollbar-thumb {
+    background-color: white; 
+}
+::-moz-scrollbar {
+    width: 10px; 
+    background-color: black;
+}
+::-moz-scrollbar-thumb {
+    background-color: white; 
+}
+.favicon {
+    width: 30px;
+    height: 30px;
+}
+.top-right-links {
     display: flex;
+    gap: 30px;
+    align-items: center; 
+    margin-right: 50px;
+    margin-top: -10px;
 }
-header img{
-    margin: 20px;
-}
-h1{
-    margin-left: 20px;
+.top-right-links a {
+    color: white;
+    text-decoration: none;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
 }
 main {
-    padding: 20px;
-    text-align: center;
+    scroll-snap-type: y mandatory;
 }
-.box-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    grid-gap: 20px;
+#home {
+    background-image: url("/Resources/home.webp");
+}
+#study_material {
+    background-image: url("/Resources/books.jpg");
+}
+#ide {
+    background-image: url("/Resources/ide.jpeg");
+}
+#chat {
+    background-image: url("/Resources/chat.webp");
+}
+#notes {
+    background-image: url("/Resources/notes.jpg");
+}
+#webscraper {
+    background-image: url("/Resources/webscraper.jpg");
+}
+.page {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
     justify-content: center;
-    margin-bottom: 50px;
-}
-.box {
-    background-color: #333;
-    border-radius: 10px;
-    padding: 40px;
-    max-width: 550px; 
-    text-align: left;
-    height: 300px;
-}
-.box h2 {
-    margin-top: 0;
-    color: darkorchid;
-    font-size: 48px;
-    line-height: 1.5; 
-}
-.box p {
-    margin-bottom: 30px; 
-    font-size: 30px;
-    line-height: 1.5; 
+    align-items: center;
     color: white;
 }
-.box a {
-    padding: 15px 30px;
-    border: none;
-    border-radius: 5px;
-    background-color: #9932CC; 
-    color: #fff;
-    font-size: 30px;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s;
+.page:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.7);
 }
-.box button:hover {
-    background-color: #8A2BE2; 
+.page:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.7);
 }
 footer {
     margin-top: 100px;
@@ -91,27 +122,4 @@ footer img {
     width: auto;
     height: 30px;
     margin: 0 20px;
-}
-@media screen and (max-width: 1200px) {
-    h1{
-        margin-left: 5px;
-        font-size: 25px;
-    }
-    .box-container {
-        grid-template-columns: repeat(1, 1fr);
-    }
-    .box{
-        height: 200px;
-    }
-    .box h2{
-        margin-top: -20px;
-        font-size: 35px;
-    }
-    .box p{
-        font-size: 20px;
-        margin-top: -15px;
-    }
-    .box button{
-        font-size: 20px;
-    }
 }
