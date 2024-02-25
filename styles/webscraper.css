@@ -1,18 +1,37 @@
 body {
-    background-color: #242424;
+    background-color: lightblue;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
+    background-image: url("/Resources/webscrapers.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+header {
+    background-color: transparent;
+    padding: 10px 0;
+    text-align: center;
+    align-self: flex-start;
+    display: flex;
+    margin-top: 0px;
+    margin-left: -1850px;
+    height: 30px;
+    position: fixed;
+}
+header img{
+    size: 5px;
+    margin: 1px 10px;
 }
 .container {
     text-align: center;
-    background-color: #333333;
+    background-color: transparent;
     border: 0px;
     border-radius: 106px;
     padding: 54px;
+    margin: 0px 0px 180px 100px;
     width: 70%;
     max-width: 700px;
 }
@@ -28,7 +47,11 @@ body {
     width: 80%;
     padding: 5px;
     margin-bottom: 10px;
-    background-color: #2f2f2f;
+    background-color: transparent;
+    color: white;
+    border-color: white;
+    border-style: solid;
+    border-radius: 20px;
     font-size: 40px; 
 }
 #scrapeButton,
@@ -36,19 +59,15 @@ body {
     padding: 20px 60px;
     font-size: 50px;
     cursor: pointer;
-    background-color: darkorchid; 
+    background-color: transparent; 
     color: #fff; 
     text-decoration: none; 
-    border: none;
+    border: solid 2px white;
     border-radius: 36px;
     margin-top: 50px;
     display: inline-block; 
     margin-left: 20px;
     margin-right: 20px;
-}
-#scrapeButton:hover,
-.history-button:hover {
-    background-color: #2980b9; 
 }
 footer {
     margin-top: 100px;

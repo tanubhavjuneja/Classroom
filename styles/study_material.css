@@ -19,17 +19,18 @@ body {
 header {
     background-color: transparent;
     padding: 10px 0;
-    text-align: center;
+    text-align: left;
     display: flex;
-    margin-top: 100px;
     height: 30px;
+    position: fixed;
+    margin-top: -300px;
 }
 header img{
     size: 5px;
     margin: 1px 10px;
 }
 .file-container{
-    margin: 270px 0px 400px 300px;
+    margin: 410px 0px 400px 300px;
 }
 .main {
     max-width: 800px;

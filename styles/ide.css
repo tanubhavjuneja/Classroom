@@ -2,10 +2,12 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    background-color: lightblue;
+    background-image: url("/Resources/ide.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 .button-container img{
-    margin: 5px 0px 0px 10px;
+    margin: -5px 0px 0px 10px;
     width: 40px;
     height: 40px;
     background-color: transparent;
@@ -14,7 +16,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #AFEEEE;
+    background-color: transparent;
     padding: 10px;
 }
 .button-group {
@@ -34,27 +36,28 @@ button {
     margin-right: 1%;
 }
 .editor-container {
-    display: flex;
-    position: relative;
+    position: inherit;
+    
+    height: 820px;
 }
-textarea {
+#code {
     resize: none;
-    flex-grow: 1;
-    height: calc(100vh - 170px);
-    margin: 1%;
+    height: 540px;
+    width: 1320px;
+    margin: 15px 0px 0px 330px;
     padding-top: 1%;
     padding-left: 1%;
     padding-bottom: 1%;
     box-sizing: border-box;
-    background-color: white;
-    color:  #89CFF0;
+    background-color: transparent;
+    color:  white;
     border: none;
     outline: none;
     overflow: auto;
     font-size: 20px;
     overflow-y: scroll;
     scrollbar-width: thin;
-    scrollbar-color: black white;
+    scrollbar-color: white transparent;
 }
 textarea::-webkit-scrollbar {
     width: 12px;

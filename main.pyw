@@ -25,11 +25,16 @@ def get_username_from_ip(ip_address):
     return None
 def sanitize_ip(ip_address):
     return re.sub(r'\W', '', ip_address)
-def get_upload_folder_for_ip(ip_address, username):
+def get_asset_folder_for_ip(ip_address, username):
     sanitized_ip = sanitize_ip(ip_address)
     sanitized_username = sanitize_ip(username)
     user_folder = f"{sanitized_ip}_{sanitized_username}"
     return os.path.join(ASSETS_FOLDER, user_folder)
+def get_upload_folder_for_ip(ip_address, username):
+    sanitized_ip = sanitize_ip(ip_address)
+    sanitized_username = sanitize_ip(username)
+    user_folder = f"{sanitized_ip}_{sanitized_username}"
+    return os.path.join(UPLOAD_FOLDER, user_folder)
 def get_project_folder(ip_address, username, project_name):
     sanitized_ip = sanitize_ip(ip_address)
     sanitized_username = sanitize_ip(username)
@@ -119,7 +124,7 @@ def view_asset(asset_name):
     ip_address = request.environ.get('REMOTE_ADDR')
     username = get_username_from_ip(ip_address)
     if username:
-        user_folder = get_upload_folder_for_ip(ip_address, username)
+        user_folder = get_asset_folder_for_ip(ip_address, username)
         if os.path.exists(user_folder):
             return static_file(asset_name, root=user_folder)
     else:
@@ -163,7 +168,7 @@ def assets_upload():
         return "Username required"
     upload = request.files.get('file')
     if upload:
-        user_folder = get_upload_folder_for_ip(ip_address, username)
+        user_folder = get_asset_folder_for_ip(ip_address, username)
         if not os.path.exists(user_folder):
             os.makedirs(user_folder)
         filename = os.path.join(user_folder, upload.filename)
@@ -176,7 +181,7 @@ def assets_upload():
 def serve_assets(filename):
     ip_address = request.environ.get('REMOTE_ADDR')
     username = get_username_from_ip(ip_address)
-    user_folder = get_upload_folder_for_ip(ip_address, username)
+    user_folder = get_asset_folder_for_ip(ip_address, username)
     file_path = os.path.join(user_folder, filename)
     if os.path.exists(file_path):
         print(f"Serving static file: {file_path}")
@@ -188,7 +193,7 @@ def serve_assets(filename):
 def assets_history():
     ip_address = request.environ.get('REMOTE_ADDR')
     username = get_username_from_ip(ip_address)
-    user_folder = get_upload_folder_for_ip(ip_address, username)
+    user_folder = get_asset_folder_for_ip(ip_address, username)
     files = os.listdir(user_folder)
     download_links = []
     for file_name in files:
@@ -204,7 +209,7 @@ def assets_history():
 def download_file(filename):
     ip_address = request.environ.get('REMOTE_ADDR')
     username = get_username_from_ip(ip_address)
-    user_folder = get_upload_folder_for_ip(ip_address, username)
+    user_folder = get_asset_folder_for_ip(ip_address, username)
     file_path = os.path.join(user_folder, filename)
     if os.path.exists(file_path):
         print(f"Attempting to serve file: {file_path}")

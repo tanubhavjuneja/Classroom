@@ -1,23 +1,37 @@
 body {
-    background-color: #2f2f2f;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif;
+    background-image: url("/Resources/ide.jpg");
+    background-size: 2100px;
+    background-repeat:no-repeat;
+    overflow: hidden;
+}
+header {
+    background-color: transparent;
+    padding: 10px 0;
+    text-align: left;
+    display: flex;
+    height: 30px;
+    position: fixed;
+    margin-top: -120px;
+}
+header img{
+    size: 5px;
+    margin: 1px 10px;
 }
 .frame {
-    background-color: #333333;
+    margin: 130px 0px 0px 680px;
+    width: 500px;
+    height: 200px;
+    background-color: transparent;
     padding: 60px; 
     border-radius: 20px; 
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3); 
 }
 label {
     color: white;
     display: block;
-    margin-bottom: 30px; 
-    font-size: 38px;
+    margin-bottom: 80px; 
+    font-size: 60px;
     text-align: center; 
 }
 input[type="text"] {
@@ -26,21 +40,21 @@ input[type="text"] {
     border-radius: 8px;
     border: 3px solid #ccc; 
     box-sizing: border-box;
-    background-color: #2a2a2a;
+    background-color: transparent;
+    margin-bottom: 60px;
     color: white;
     font-size: 22px; 
 }
 input[type="submit"] {
     padding: 20px 30px;
-    background-color: darkorchid;
+    background-color: transparent;
     color: white;
-    border: none;
+    border: solid 2px white;
     font-size: 25px;
     border-radius: 8px;
     cursor: pointer;
     display: block;
-    margin-left: 20%;
-    margin-top: 10%; 
+    margin: 10px 0px 0px 150px;
 }
 input[type="submit"]:hover {
     background-color: #9932cc;
