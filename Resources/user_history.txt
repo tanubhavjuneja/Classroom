@@ -1,6 +1,0 @@
-192.168.1.6,Tanubhav
-192.168.1.5,Tanubhav
-192.168.1.2,Tanubhav
-127.0.0.1,Tanubhav
-192.168.1.11,Tanubhav
-192.168.1.8,Tanubhav
