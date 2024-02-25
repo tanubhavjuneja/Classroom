@@ -8,14 +8,16 @@
 </head>
 <body>
     <div class="button-container">
-        <a href="/"><img src="/Resources/favicon.ico" alt="Home"></a>
-        <button onclick="switchLanguage('html')">HTML</button>
-        <button onclick="switchLanguage('css')">CSS</button>
-        <button onclick="switchLanguage('js')">JS</button>
-        <button onclick="renderCode()">Render</button>
-        <button onclick="addPage()">Add Page</button>
-        <button onclick="openPage()">Open Page</button>
-        <button onclick="openAssets()">Assets</button>
+        <a href="/"><img src="/Resources/favicon.ico" alt="Home" style="margin-top: 10px;"></a>
+        <div class="button-group">
+            <button onclick="switchLanguage('html')"><img src="/Resources/html.webp" style="width:62px;height: 52px; margin-right: -15px;" alt="HTML"></button>
+            <button onclick="switchLanguage('css')"><img src="/Resources/css.png" alt="CSS"></button>
+            <button onclick="switchLanguage('js')"><img src="/Resources/js.png" alt="JS"></button>
+            <button onclick="renderCode()"><img src="/Resources/render.png" alt="Render"></button>
+            <button onclick="addPage()"><img src="/Resources/add.png" alt="Add Page"></button>
+            <button onclick="openPage()"><img src="/Resources/list.png" alt="Page List"></button>
+            <button onclick="openAssets()"><img src="/Resources/assets.png" alt="Assets"></button>
+        </div>
     </div>
     <div class="editor-container">
         <textarea id="code" placeholder=""></textarea>
