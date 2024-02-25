@@ -6,7 +6,6 @@ body {
 }
 header {
     background-color: transparent;
-    color: white;
     padding: 20px;
     position: fixed;
     top: 0;
@@ -27,15 +26,19 @@ p {
     font-size: 30px;
     font-family: Arial, Helvetica, sans-serif;
 }
-button {
+#redirect {
     margin: 600px 150px 0px 0px;
-    width: 500px;
-    height: 50px;
+    width: 700px;
+    height: 20px;
     border-radius: 20px;
     color: white;
     background-color: transparent;
-    border-color: white;
-    border-width: 1px;
+    text-decoration: none;
+    padding: 20px 20px 20px 30px;
+    align-items: center;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    border: solid 2px white;
 }
 ::-webkit-scrollbar {
     width: 10px; 
@@ -99,12 +102,6 @@ main {
     justify-content: center;
     align-items: center;
     color: white;
-}
-.page:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-.page:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.7);
 }
 footer {
     margin-top: 100px;

@@ -43,8 +43,8 @@ button {
 #code {
     resize: none;
     height: 540px;
-    width: 1320px;
-    margin: 15px 0px 0px 330px;
+    width: 1300px;
+    margin: 22px 0px 0px 330px;
     padding-top: 1%;
     padding-left: 1%;
     padding-bottom: 1%;
@@ -85,10 +85,4 @@ footer img {
     width: auto;
     height: 30px;
     margin: 0 20px;
-}
-@media screen and (max-width: 1200px) {
-    textarea {
-        border-radius: 10px;    
-        height: calc(100vh - 180px);
-    }
 }
