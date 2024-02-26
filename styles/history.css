@@ -39,15 +39,11 @@ h1{
     padding: 0;
     margin: 0;
 }
-.upload-item ul li{
-    margin-bottom: 15px;
-    padding: 15px;
-}
 .image-preview {
-    width: 700px;
-    height: 700px;
+    width: 800px;
+    height: auto;
     object-fit: cover; 
-    margin-right: 20px; 
+    margin-left: 20px; 
 }
 .download-button {
     background-color: darkorchid;
@@ -64,8 +60,7 @@ h1{
     color: black;
     font-size: 35px;
     display: inline-block; 
-    margin-top:20px;
-    margin-right: 50px; 
+    margin:20px 50px 40px 20px;
 }
 .download-button:hover {
     background-color: #9b30ff; 

@@ -29,9 +29,12 @@ header img{
     background-color: transparent;
     padding: 20px;
     border-radius: 15px;
-    width: 60%;
-    height: 40%;
-    margin: 0px 0px 0px 400px;
+    width: 1200px;
+    height: 400px;
+    margin: 20px 0px 0px 360px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: white transparent;
 }
 .page-list {
     background-color: transparent;

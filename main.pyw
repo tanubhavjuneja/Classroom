@@ -158,14 +158,17 @@ def ide():
 def assets():
     if not os.path.exists(ASSETS_FOLDER):
         os.makedirs(ASSETS_FOLDER)
+    ip_address = request.environ.get('REMOTE_ADDR')
+    username = get_username_from_ip(ip_address)
+    user_folder = get_asset_folder_for_ip(ip_address, username)
+    if not os.path.exists(user_folder):
+        os.makedirs(user_folder)
     print(f"Created or verified existence of folder {ASSETS_FOLDER}")
     return static_file('assets.html', root='html')
 @app.route('/ide/assets/upload', method='POST')
 def assets_upload():
     ip_address = request.environ.get('REMOTE_ADDR')
     username = get_username_from_ip(ip_address)
-    if not username:
-        return "Username required"
     upload = request.files.get('file')
     if upload:
         user_folder = get_asset_folder_for_ip(ip_address, username)
