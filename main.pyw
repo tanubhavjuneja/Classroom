@@ -8,6 +8,7 @@ import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import zipfile
+import threading
 app = Bottle()
 UPLOAD_FOLDER = 'projects/'
 NOTES_FOLDER = 'notes'
@@ -79,6 +80,10 @@ def get_user_pages(ip_address, username):
     all_pages = [d for d in os.listdir(user_folder) if os.path.isdir(os.path.join(user_folder, d))]
     print(all_pages)
     return [page for page in all_pages]
+@app.route('/ping')
+def ping():
+    response.content_type = 'application/json'
+    return json.dumps({"status": "ok"})
 @app.route('/ide/add_page')
 def show_add_page():
     return static_file('add_page.html', root='html')
@@ -568,6 +573,14 @@ def get_file_list(directory):
         return []
 def start_server():
     run(app, host='0.0.0.0', port=80, debug=True)
+def keep_server_awake():
+    def ping():
+        try:
+            requests.get("https://classroom-hbl6.onrender.com/ping")
+        except Exception as e:
+            print(f"Ping failed: {e}")
+        threading.Timer(60, ping).start()
+    ping()
 if __name__ == '__main__':
     messageDict={'0.0.0.0':[0,0]}
     if not os.path.exists('Resources/chat_history.txt'):
@@ -576,4 +589,5 @@ if __name__ == '__main__':
     if not os.path.exists('Resources/user_history.txt'):
         with open('Resources/user_history.txt', 'w') as file:
             pass
+    keep_server_awake()
     start_server()
