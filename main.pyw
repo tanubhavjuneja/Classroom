@@ -589,5 +589,5 @@ if __name__ == '__main__':
     if not os.path.exists('Resources/user_history.txt'):
         with open('Resources/user_history.txt', 'w') as file:
             pass
-    keep_server_awake()
     start_server()
+
